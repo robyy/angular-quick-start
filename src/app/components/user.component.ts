@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
     selector: 'user',
     template: `
-  <h1>Hello {{name}}</h1>
+  <h1>{{name}}</h1>
   <p><strong>Email:</strong> {{email}}</p>
   <p><strong>Address:</strong> {{address.street}}  {{address.city}}, {{address.state}}</p>
   <button (click)="toggleHobbies()">{{showHobbies ? "Hide Hobbies" : "Show Hobbies"}}</button>
@@ -15,6 +15,20 @@ import { Component } from '@angular/core';
         </li>
     </ul>
   </div>
+  <hr />
+  <h3>Edit User</h3>
+  <form>
+    <label>Name: </label><br /> 
+    <input type="text" name="name" [(ngModel)]="name" /><br />
+    <label>Email: </label><br /> 
+    <input type="text" name="email" [(ngModel)]="email" /><br />
+    <label>Street: </label><br /> 
+    <input type="text" name="address.street" [(ngModel)]="address.street" /><br />
+    <label>City: </label><br /> 
+    <input type="text" name="address.city" [(ngModel)]="address.city" /><br />
+    <label>State: </label><br /> 
+    <input type="text" name="address.state" [(ngModel)]="address.state" /><br />
+  </form>
   `,
 })
 export class UserComponent {
