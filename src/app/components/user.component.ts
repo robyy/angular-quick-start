@@ -10,10 +10,15 @@ import { Component } from '@angular/core';
   <div *ngIf="showHobbies">
     <h3>Hobbies</h3>
     <ul>
-        <li *ngFor='let hobby of hobbies'>
-            {{hobby}}
+        <li *ngFor='let hobby of hobbies; let i = index'>
+            {{hobby}} <button (click)="deleteHobby(i)">X</button>
         </li>
     </ul>
+    <form (submit)="addHobby(hobby.value)">
+        <label>Add Hobby: </label><br /> 
+        <input type="text" #hobby /><br />
+        <button type="submit">Save</button>
+    </form>
   </div>
   <hr />
   <h3>Edit User</h3>
@@ -56,6 +61,14 @@ export class UserComponent {
         } else {
             this.showHobbies = true;
         }
+    }
+
+    addHobby(hobby: string): void {
+        this.hobbies.push(hobby);
+    }
+
+    deleteHobby(i: number): void {
+        this.hobbies.splice(i, 1);
     }
 }
 
