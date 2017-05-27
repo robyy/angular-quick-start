@@ -1,40 +1,11 @@
 import { Component } from '@angular/core';
+import { PostsService } from '../services/posts.service';
 
 @Component({
+    moduleId: module.id,
     selector: 'user',
-    template: `
-  <h1>{{name}}</h1>
-  <p><strong>Email:</strong> {{email}}</p>
-  <p><strong>Address:</strong> {{address.street}}  {{address.city}}, {{address.state}}</p>
-  <button (click)="toggleHobbies()">{{showHobbies ? "Hide Hobbies" : "Show Hobbies"}}</button>
-  <div *ngIf="showHobbies">
-    <h3>Hobbies</h3>
-    <ul>
-        <li *ngFor='let hobby of hobbies; let i = index'>
-            {{hobby}} <button (click)="deleteHobby(i)">X</button>
-        </li>
-    </ul>
-    <form (submit)="addHobby(hobby.value)">
-        <label>Add Hobby: </label><br /> 
-        <input type="text" #hobby /><br />
-        <button type="submit">Save</button>
-    </form>
-  </div>
-  <hr />
-  <h3>Edit User</h3>
-  <form>
-    <label>Name: </label><br /> 
-    <input type="text" name="name" [(ngModel)]="name" /><br />
-    <label>Email: </label><br /> 
-    <input type="text" name="email" [(ngModel)]="email" /><br />
-    <label>Street: </label><br /> 
-    <input type="text" name="address.street" [(ngModel)]="address.street" /><br />
-    <label>City: </label><br /> 
-    <input type="text" name="address.city" [(ngModel)]="address.city" /><br />
-    <label>State: </label><br /> 
-    <input type="text" name="address.state" [(ngModel)]="address.state" /><br />
-  </form>
-  `,
+    templateUrl: 'user.component.html',
+    providers: [PostsService]
 })
 export class UserComponent {
     name: string;
@@ -42,8 +13,9 @@ export class UserComponent {
     address: address;
     hobbies: string[];
     showHobbies: boolean;
+    posts: Post[];
 
-    constructor() {
+    constructor(private postsService: PostsService) { // inject PostsService
         this.name = 'Angular';
         this.email = 'john@gmail.com';
         this.address = {
@@ -53,6 +25,11 @@ export class UserComponent {
         };
         this.hobbies = ['Music', 'Movies', 'Sports'];
         this.showHobbies = false;
+
+        this.postsService.getPosts().subscribe(posts => {
+            // console.log(posts);
+            this.posts = posts;
+        });
     }
 
     toggleHobbies() {
@@ -76,4 +53,10 @@ interface address {
     street: string;
     city: string;
     state: string;
+}
+
+interface Post {
+    id: number;
+    title: string;
+    body: string;
 }
